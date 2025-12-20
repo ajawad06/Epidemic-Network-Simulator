@@ -3,6 +3,15 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
+history = {
+    "S": [],
+    "E": [],
+    "I": [],
+    "R": [],
+    "D": []
+}
+
+
 ###### 1. VARIABLES and CONFIGURATIONS ######
 
 # Pygame Display Settings
@@ -54,6 +63,8 @@ COLOR_INFECTED = (255, 50, 50)      # Red
 COLOR_RECOVERED = (50, 100, 255)    # Blue
 COLOR_DEAD = (50, 50, 50)           # Dark Grey/Black
 COLOR_EDGE = (210, 210, 210)        # Light Grey lines
+
+
 
 ###### 2. GENERATE SOCIAL NETWORK ######
 
@@ -194,6 +205,55 @@ def reset():
     screen_pos = get_screen_coords(raw_pos)
     return G, screen_pos
 
+def show_final_bar_chart(counts):
+    plt.figure(figsize=(6,4))
+    plt.bar(
+        ["Susceptible", "Incubating", "Infected", "Recovered", "Dead"],
+        [
+            counts[STATE_SUSCEPTIBLE],
+            counts[STATE_INCUBATING],
+            counts[STATE_INFECTED],
+            counts[STATE_RECOVERED],
+            counts[STATE_DEAD]
+        ]
+    )
+    plt.ylabel("Population")
+    plt.title("Final Disease Distribution")
+    plt.tight_layout()
+    plt.show()
+
+def draw_color_legend_top_right(screen, font):
+    padding = 10
+    radius = 6
+    line_gap = 20
+
+    legend_items = [
+        ("Susceptible", COLOR_SUSCEPTIBLE),
+        ("Incubating", COLOR_INCUBATING),
+        ("Infected", COLOR_INFECTED),
+        ("Recovered", COLOR_RECOVERED),
+        ("Dead", COLOR_DEAD)
+    ]
+
+    # Calculate box size
+    box_width = 180
+    box_height = line_gap * len(legend_items) + 20
+
+    box_x = WIDTH - box_width - padding
+    box_y = padding
+
+    # Draw box
+    pygame.draw.rect(screen, (245, 245, 245), (box_x, box_y, box_width, box_height))
+    pygame.draw.rect(screen, (50, 50, 50), (box_x, box_y, box_width, box_height), 2)
+
+    # Draw items
+    for i, (label, color) in enumerate(legend_items):
+        y = box_y + 15 + i * line_gap
+        pygame.draw.circle(screen, color, (box_x + 15, y), radius)
+        text = font.render(label, True, (0, 0, 0))
+        screen.blit(text, (box_x + 30, y - 8))
+
+
 def main():
     G, raw_pos = create_social_network()
     initialize_population(G)
@@ -210,6 +270,7 @@ def main():
     day_count = 0
     paused = True 
     simulation_ended = False # Flag to track if virus is gone
+    graph_shown=False
 
     while running:
         # 1. Input Handling
@@ -224,11 +285,20 @@ def main():
                     day_count = 0
                     paused = True
                     simulation_ended = False
+                    graph_shown = False
+
 
         # 2. Count States
         counts = {0:0, 1:0, 2:0, 3:0, 4:0}
         for node in G.nodes():
             counts[G.nodes[node]['state']] += 1
+        # Save history
+        history["S"].append(counts[STATE_SUSCEPTIBLE])
+        history["E"].append(counts[STATE_INCUBATING])
+        history["I"].append(counts[STATE_INFECTED])
+        history["R"].append(counts[STATE_RECOVERED])
+        history["D"].append(counts[STATE_DEAD])
+        
 
         # 3. Check for Simulation End
         # If no one is infected AND no one is incubating, the spread is over.
@@ -236,6 +306,11 @@ def main():
             simulation_ended = True
         else:
             simulation_ended = False
+        # Show final bar chart ONCE after outbreak ends
+        if simulation_ended and not graph_shown:
+           show_final_bar_chart(counts)
+           graph_shown = True
+
 
         # 4. Run Logic (Only if not paused and not ended)
         if not paused and not simulation_ended:
@@ -292,8 +367,11 @@ def main():
             c = (200, 0, 0) if (simulation_ended and "STATUS" in line) else (0,0,0)
             text_surf = font.render(line, True, c)
             screen.blit(text_surf, (15, 15 + i * 18))
+        
+        draw_color_legend_top_right(screen, font)
 
-        # Big Overlay if Ended
+
+            # Big Overlay if Ended
         if simulation_ended:
             msg = "OUTBREAK OVER"
             text_surf = big_font.render(msg, True, (0, 0, 0))
@@ -307,6 +385,7 @@ def main():
 
     pygame.quit()
     sys.exit()
+
 
 # === HELPFUL FOR DEBUGGING  ===
 # print("Step 1: Configuration Loaded.")
