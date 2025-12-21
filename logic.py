@@ -54,6 +54,7 @@ def initialize_population(G, initial_infected_count):
 def step_simulation(G, current_prob, incubation_period, min_dur, max_dur):
     newly_infected = []
     
+    # A. Transmission
     infected_nodes = [n for n in G.nodes if G.nodes[n]['state'] == STATE_INFECTIOUS]
     for node in infected_nodes:
         neighbors = G.neighbors(node)
@@ -70,6 +71,8 @@ def step_simulation(G, current_prob, incubation_period, min_dur, max_dur):
     for node in newly_infected:
         G.nodes[node]['state'] = STATE_EXPOSED
 
+
+    # B. Progression
     for node in G.nodes():
         state = G.nodes[node]['state']
         if state == STATE_EXPOSED:
