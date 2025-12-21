@@ -96,6 +96,6 @@ def draw_sidebar_graph(screen, x, y, w, h, history, total_people):
             pygame.draw.lines(screen, color, False, points, 2)
 
     plot_line("S", COLOR_SUSCEPTIBLE)
-    plot_line("I", COLOR_INFECTED)
+    plot_line("I", COLOR_INFECTIOUS)
     plot_line("R", COLOR_RECOVERED)
     plot_line("D", COLOR_DEAD)

@@ -48,13 +48,13 @@ def initialize_population(G, initial_infected_count):
     initial_count = min(initial_infected_count, len(G.nodes()))
     initial_infected = random.sample(list(G.nodes()), initial_count)
     for node in initial_infected:
-        G.nodes[node]['state'] = STATE_INFECTED
+        G.nodes[node]['state'] = STATE_INFECTIOUS
 
 ## 4. Simulation Logic
 def step_simulation(G, current_prob, incubation_period, min_dur, max_dur):
     newly_infected = []
     
-    infected_nodes = [n for n in G.nodes if G.nodes[n]['state'] == STATE_INFECTED]
+    infected_nodes = [n for n in G.nodes if G.nodes[n]['state'] == STATE_INFECTIOUS]
     for node in infected_nodes:
         neighbors = G.neighbors(node)
         for neighbor in neighbors:
@@ -68,15 +68,15 @@ def step_simulation(G, current_prob, incubation_period, min_dur, max_dur):
                         newly_infected.append(neighbor)
 
     for node in newly_infected:
-        G.nodes[node]['state'] = STATE_INCUBATING
+        G.nodes[node]['state'] = STATE_EXPOSED
 
     for node in G.nodes():
         state = G.nodes[node]['state']
-        if state == STATE_INCUBATING:
+        if state == STATE_EXPOSED:
             G.nodes[node]['incubation_counter'] += 1
             if G.nodes[node]['incubation_counter'] >= incubation_period:
-                G.nodes[node]['state'] = STATE_INFECTED
-        elif state == STATE_INFECTED:
+                G.nodes[node]['state'] = STATE_INFECTIOUS
+        elif state == STATE_INFECTIOUS:
             G.nodes[node]['days_infected'] += 1
             days = G.nodes[node]['days_infected']
             if days > min_dur:

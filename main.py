@@ -4,12 +4,25 @@ from config import *
 from ui import Slider, InputBox, draw_sidebar_graph
 from logic import create_social_network, get_screen_coords, initialize_population, step_simulation
 
-# matplot bar chart
+# Matplot Bar Chart
 def show_final_bar_chart(counts):
+    # 1. Convert RGB to 0-1 for matplotlib
+    my_colors = [
+        (COLOR_SUSCEPTIBLE[0]/255, COLOR_SUSCEPTIBLE[1]/255, COLOR_SUSCEPTIBLE[2]/255),
+        (COLOR_EXPOSED[0]/255,  COLOR_EXPOSED[1]/255,  COLOR_EXPOSED[2]/255),
+        (COLOR_INFECTIOUS[0]/255,    COLOR_INFECTIOUS[1]/255,    COLOR_INFECTIOUS[2]/255),
+        (COLOR_RECOVERED[0]/255,   COLOR_RECOVERED[1]/255,   COLOR_RECOVERED[2]/255),
+        (COLOR_DEAD[0]/255,        COLOR_DEAD[1]/255,        COLOR_DEAD[2]/255)
+    ]
+
     plt.figure(figsize=(6,4))
+    
+    # 2. Plot Bar Chart
     plt.bar(
-        ["Susceptible", "Incubating", "Infected", "Recovered", "Dead"],
-        [counts[STATE_SUSCEPTIBLE], counts[STATE_INCUBATING], counts[STATE_INFECTED], counts[STATE_RECOVERED], counts[STATE_DEAD]]
+        ["Susceptible", "Exposed", "Infectious", "Recovered", "Dead"],
+        [counts[STATE_SUSCEPTIBLE], counts[STATE_EXPOSED], counts[STATE_INFECTIOUS], counts[STATE_RECOVERED], counts[STATE_DEAD]],
+        color=my_colors,  
+        edgecolor='black'
     )
     plt.ylabel("Population")
     plt.title("Final Disease Distribution")
@@ -36,7 +49,7 @@ def main():
     # Setup Pygame
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("SEIR Simulation - Final Project")
+    pygame.display.set_caption("SEIRD Simulation")
     clock = pygame.time.Clock()
     
     font = pygame.font.SysFont("Arial", 14)
@@ -103,12 +116,12 @@ def main():
 
         # Logic Step
         if not paused and not simulation_ended:
-            if counts[STATE_INFECTED] > 0 or counts[STATE_INCUBATING] > 0:
+            if counts[STATE_INFECTIOUS] > 0 or counts[STATE_EXPOSED] > 0:
                 step_simulation(G, DISEASE_SPREAD_PROB, INCUBATION_PERIOD, MIN_INFECTED_DURATION, MAX_INFECTED_DURATION)
                 day_count += 1
                 history["S"].append(counts[STATE_SUSCEPTIBLE])
-                history["E"].append(counts[STATE_INCUBATING])
-                history["I"].append(counts[STATE_INFECTED])
+                history["E"].append(counts[STATE_EXPOSED])
+                history["I"].append(counts[STATE_INFECTIOUS])
                 history["R"].append(counts[STATE_RECOVERED])
                 history["D"].append(counts[STATE_DEAD])
             else:
@@ -156,8 +169,8 @@ def main():
         for node in G.nodes():
             state = G.nodes[node]['state']
             color = COLOR_SUSCEPTIBLE
-            if state == STATE_INCUBATING: color = COLOR_INCUBATING
-            elif state == STATE_INFECTED: color = COLOR_INFECTED
+            if state == STATE_EXPOSED: color = COLOR_EXPOSED
+            elif state == STATE_INFECTIOUS: color = COLOR_INFECTIOUS
             elif state == STATE_RECOVERED: color = COLOR_RECOVERED
             elif state == STATE_DEAD: color = COLOR_DEAD
             pygame.draw.circle(screen, color, screen_pos[node], NODE_RADIUS)
