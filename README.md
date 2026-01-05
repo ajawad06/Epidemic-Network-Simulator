@@ -1,33 +1,10 @@
-# Generate requirements.txt
-cat << 'EOF' > requirements.txt
-pygame
-networkx
-numpy
-matplotlib
-EOF
-
-# Generate README.md
-cat << 'EOF' > README.md
 # 🦠 Infectious Disease Spread Simulation (SEIRD)
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Pygame](https://img.shields.io/badge/Library-Pygame-green) ![NetworkX](https://img.shields.io/badge/Graph-NetworkX-orange) ![Status](https://img.shields.io/badge/Status-Completed-success)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Pygame](https://img.shields.io/badge/Library-Pygame-green) ![NetworkX](https://img.shields.io/badge/Graph-NetworkX-orange)
 
 A real-time, agent-based simulation modeling the spread of a virus through a social network. This project visualizes how network topology and probabilistic factors (vaccination, masks, mortality rates) influence an epidemic using the **SEIRD** model.
 
-> **Course:** Data Structures & Algorithms (CS14-D)  
-> **Institute:** National University of Sciences & Technology (NUST)  
-> **Date:** December 21, 2025
-
----
-
-## 📖 Table of Contents
-- [Overview](#-overview)
-- [Epidemiological Model (SEIRD)](#-epidemiological-model-seird)
-- [Graph Theory & Algorithms](#-graph-theory--algorithms)
-- [Tech Stack](#-tech-stack)
-- [Installation & Usage](#-installation--usage)
-- [Project Team](#-project-team)
-- [Future Improvements](#-future-improvements)
+> **Course:** Data Structures & Algorithms'
 
 ---
 
