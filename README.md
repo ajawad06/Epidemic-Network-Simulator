@@ -2,10 +2,6 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Pygame](https://img.shields.io/badge/Library-Pygame-green) ![NetworkX](https://img.shields.io/badge/Graph-NetworkX-orange)
 
-# 🦠 Infectious Disease Spread Simulation (SEIRD)
-
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Pygame](https://img.shields.io/badge/Library-Pygame-green) ![NetworkX](https://img.shields.io/badge/Graph-NetworkX-orange)
-
 A real-time, agent-based simulation modeling the spread of a virus through a social network using the **SEIRD** model. Unlike simple grid-based simulations, it uses **Small-World Network topology** to mimic realistic human interactions, where clusters of friends have short paths to other groups.
 
 > **Course:** Data Structures & Algorithms
