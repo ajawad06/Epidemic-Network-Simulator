@@ -72,7 +72,7 @@ pip install -r requirements.txt
 After installing the dependencies, clone the repository and run the main script:
 
 ```bash
-git clone <repository-url>
-cd <repository-folder>
+git clone <https://github.com/ajawad06/Epidemic-Network-Simulator>
+cd <Epidemic-Network-Simulator>
 python main.py
 ```
