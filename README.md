@@ -69,3 +69,13 @@ Ensure you have Python installed. Install dependencies using the generated requi
 
 ```bash
 pip install -r requirements.txt
+```
+
+## ▶️ Running the Simulation
+After installing the dependencies, clone the repository and run the main script:
+
+```bash
+git clone <repository-url>
+cd <repository-folder>
+python main.py
+```
