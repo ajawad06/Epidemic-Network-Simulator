@@ -2,16 +2,17 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Pygame](https://img.shields.io/badge/Library-Pygame-green) ![NetworkX](https://img.shields.io/badge/Graph-NetworkX-orange)
 
-A real-time, agent-based simulation modeling the spread of a virus through a social network. This project visualizes how network topology and probabilistic factors (vaccination, masks, mortality rates) influence an epidemic using the **SEIRD** model.
+# 🦠 Infectious Disease Spread Simulation (SEIRD)
 
-> **Course:** Data Structures & Algorithms'
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![Pygame](https://img.shields.io/badge/Library-Pygame-green) ![NetworkX](https://img.shields.io/badge/Graph-NetworkX-orange)
+
+A real-time, agent-based simulation modeling the spread of a virus through a social network using the **SEIRD** model. Unlike simple grid-based simulations, it uses **Small-World Network topology** to mimic realistic human interactions, where clusters of friends have short paths to other groups.
+
+> **Course:** Data Structures & Algorithms
 
 ---
 
-## 🔍 Overview
-This simulation models individuals as **agents** connected via a **Social Network Graph**. Unlike simple grid-based simulations, this project uses Small-World Network topology to mimic real-life human interactions, where clusters of friends have short paths to other groups.
-
-**🚀 Key Features:**
+## 🚀 Key Features:
 *   **Real-time Visualization:** Watch the infection spread node-by-node using Pygame.
 *   **Stochastic Logic:** Uses Monte Carlo methods (Bernoulli trials) for infection, recovery, and death probabilities.
 *   **Optimization:** Implements an $O(N)$ game loop by optimizing the transmission traversal step.
